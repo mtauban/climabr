@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 class="page-header">History for {{ sensor.name }}</h1>
+    <ul>
+    {% for m in measures %}
+        <li>{{ m.date }} - {{ m.value }} </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

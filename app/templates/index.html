@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 class="page-header">PandaTemp</h1>
+    <ul>
+    {% for config in configs %}
+        <li>{{ config.id }} - {{ config.value }} </li>
+    {% endfor %}
+    </ul>
+    {{ measure.value }}
+{% endblock %}
