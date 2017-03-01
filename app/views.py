@@ -24,13 +24,13 @@ def index():
 
 @app.route('/measure/<sensor_id>/<type>', methods=['get'])
 @app.route('/measure/<sensor_id>/', methods=['get'])
-def get_measure(sensor_id, type='D'):
+def get_measure(sensor_id, type='H'):
     delays = {'H' : 1, 'D': 24, 'W': 170, 'M': 5040, 'Y': 61000}
     sensor = Sensor.query.get(sensor_id)
     if sensor is None:
         abort(404)
     ms = Measurement.query.join(Sensor).filter(Sensor.id == sensor.id,
-                                               Measurement.date > datetime.now() - timedelta(hours=delays[type]))
+                                               Measurement.date > datetime.now() - timedelta(hours=delays[type])).order_by(Measurement.date.desc())
     return render_template('measure.html', sensor=sensor, measures=ms)
 
 
