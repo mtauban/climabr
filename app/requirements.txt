@@ -1,4 +1,5 @@
 Flask==0.12
 Flask_SQLAlchemy==2.1
 flask_wtf==0.14.2
+sqlalchemy-migrate== 0.10.0
 WTForms==2.1
