@@ -22,6 +22,18 @@ def index():
     return render_template('index.html', configs=u, measure=m)
 
 
+@app.route('/sensor/')
+def sensor_list():
+    sensors = Sensor.query.all()
+    return render_template('sensor.html', sensors=sensors)
+
+
+@app.route('/admin/sensor/<sensor_id>/')
+def sensor_form(sensor_id):
+    return
+
+
+
 @app.route('/measure/<sensor_id>/<type>', methods=['get'])
 @app.route('/measure/<sensor_id>/', methods=['get'])
 def get_measure(sensor_id, type='H'):

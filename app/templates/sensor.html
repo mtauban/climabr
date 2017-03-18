@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1 class="page-header">Sensor List</h1>
+    <ul>
+    {% for m in sensors %}
+        <li>{{ m.id }} - {{ m.name }} <a href="{{ url_for('get_measure', sensor_id=m.id) }}">Last</a> </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

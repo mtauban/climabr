@@ -17,6 +17,7 @@ class pLast(Enum):
     M = 5040
     Y = 61000
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(64), index=True, unique=True)
