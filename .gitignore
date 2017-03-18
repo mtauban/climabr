@@ -3,3 +3,4 @@ app.db
 .idea/
 *__pycache__*
 db_repository/
+*.pyc
