@@ -42,7 +42,7 @@ def get_measure(sensor_id, type='H'):
 # If receives an unknown sensor, it will add the given sensor !
 # Integrates the measurement in the database
 # retrieves data
-@app.route('/api/v1/measure/<sensor_id>/', methods=['POST'])
+@app.route('/api/v1/measure/<sensor_id>', methods=['POST'])
 def add_measure(sensor_id):
     sensor = Sensor.query.get(sensor_id)
     if sensor is None:  # Sensor is not known
@@ -64,8 +64,19 @@ def add_measure(sensor_id):
     if not request.json or not 'value' in request.json:
         abort(400)
     data = request.get_json()
-    m = Measurement(sensor, data.get('value'), datetime.now())
-    db.session.add(m)
+
+    measuredvalue = float(data.get('value')) # @TODO: Check if value is float ...
+    # retrieve last two measurement to check if value is changeing
+    lastm = Measurement.query.join(Sensor).filter(Sensor.id == sensor.id). \
+        order_by(Measurement.date.desc()).limit(2).all()
+    tol = 0.005 # @TODO: Make it a config variable at some point
+    if len(lastm) == 2 and ( abs(float(lastm[0].value) - float(lastm[1].value)) <= tol) and ( abs(float(lastm[0].value)  - measuredvalue) <= tol) : # we have two items already in the list, we have to check if last two are equals, if so, we update last one with new timestamp
+            lastm[0].date = datetime.now()
+            m = lastm[0]
+    else:     # creates a measurement value
+        m = Measurement(sensor, data.get('value'), datetime.now())
+        db.session.add(m)
+
     db.session.commit()
     return jsonify(m.toJSON())
 
