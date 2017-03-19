@@ -2,16 +2,9 @@ from datetime import datetime, timedelta
 
 from app import app, db
 from flask import render_template, jsonify, abort, request
-from .forms import LoginForm
 from .models import Config, Sensor, Measurement, Category, Location, pLast
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    return render_template('login.html',
-                           title='Sign In',
-                           form=form)
 
 
 @app.route('/')
@@ -22,15 +15,11 @@ def index():
     return render_template('index.html', configs=u, measure=m)
 
 
-@app.route('/sensor/')
+@app.route('/sensor')
 def sensor_list():
     sensors = Sensor.query.all()
     return render_template('sensor.html', sensors=sensors)
 
-
-@app.route('/admin/sensor/<sensor_id>/')
-def sensor_form(sensor_id):
-    return
 
 
 
