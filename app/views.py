@@ -94,8 +94,6 @@ def get_config(key=None):
             abort(404)
         else:  # prepare for output otherwise
             u = [q]
-    for i in u:
-        print(i.toJSON())
     return jsonify( config = [ i.toJSON() for i in u ])
 
 
