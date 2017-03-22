@@ -94,7 +94,9 @@ def get_config(key=None):
             abort(404)
         else:  # prepare for output otherwise
             u = [q]
-    return jsonify({'config': i.toJSON() for i in u})
+    for i in u:
+        print(i.toJSON())
+    return jsonify( config = [ i.toJSON() for i in u ])
 
 
 @app.route('/api/v1/config', methods=['POST'])  # Create a configuration, or update
@@ -106,7 +108,7 @@ def create_config():
     db.session.merge(q)
     db.session.commit()
     u = [q]
-    return jsonify({'config': i.toJSON() for i in u})
+    return jsonify( config = [ i.toJSON() for i in u ])
 
 
 @app.route('/api/v1/config/<key>', methods=['PUT'])  # Update a configuration
@@ -117,4 +119,4 @@ def update_config(key):
     q.value = request.json.get('value', q.value)
     db.session.commit()
     u = [q]
-    return jsonify({'config': i.toJSON() for i in u})
+    return jsonify( config = [ i.toJSON() for i in u ])
